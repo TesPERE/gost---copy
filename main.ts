@@ -95,9 +95,9 @@ controller.anyButton.onEvent(ControllerButtonEvent.Pressed, function () {
         . . . . . . . . . b 9 b . . . . 
         . . . . . . b b b b b b . . . . 
         . . . . . b b 9 9 9 9 9 b . . . 
-        . . . . b b 9 d 1 f 9 9 d f . . 
-        . . . . b 9 9 1 f f 9 d 4 c . . 
-        . . . . b 9 9 d f b d d 4 4 . . 
+        . . . . b b 9 d 1 f 9 9 6 f . . 
+        . . . . b 9 9 1 f f 9 6 4 c . . 
+        . . . . b 9 9 d f b 6 6 4 4 . . 
         . b b b 6 9 9 9 9 9 4 4 4 4 4 b 
         b 6 6 6 b b 6 9 9 4 4 4 4 4 b . 
         b b 6 9 9 9 b 9 9 9 9 9 9 b . . 
@@ -114,6 +114,7 @@ controller.anyButton.onEvent(ControllerButtonEvent.Pressed, function () {
 })
 sprites.onOverlap(SpriteKind.Projectile, SpriteKind.Player, function (sprite, otherSprite) {
     sprites.destroyAllSpritesOfKind(SpriteKind.Player)
+    sprites.destroyAllSpritesOfKind(SpriteKind.Projectile)
 })
 controller.right.onEvent(ControllerButtonEvent.Pressed, function () {
     animation.runImageAnimation(
@@ -319,6 +320,7 @@ controller.left.onEvent(ControllerButtonEvent.Pressed, function () {
     )
 })
 sprites.onOverlap(SpriteKind.Misil, SpriteKind.Projectile, function (sprite, otherSprite) {
+    sprites.destroyAllSpritesOfKind(SpriteKind.Projectile)
     sprites.destroyAllSpritesOfKind(SpriteKind.Misil)
 })
 sprites.onOverlap(SpriteKind.Duk, SpriteKind.Player, function (sprite, otherSprite) {
@@ -388,6 +390,7 @@ controller.A.onEvent(ControllerButtonEvent.Released, function () {
 sprites.onOverlap(SpriteKind.Duk, SpriteKind.Misil, function (sprite, otherSprite) {
     statusbar.value += -1
 })
+let projectile: Sprite = null
 let Parreable: Sprite = null
 let projectile2: Sprite = null
 let statusbar: StatusBarSprite = null
@@ -548,6 +551,9 @@ forever(function () {
     scroller.scrollBackgroundWithSpeed(-50, 0)
 })
 forever(function () {
+	
+})
+forever(function () {
     Parreable = sprites.create(img`
         ........................
         ............fff.........
@@ -569,10 +575,11 @@ forever(function () {
     Parreable.setVelocity(-90, 0)
     Parreable.y = randint(0, 115)
     Parreable.x = 200
-    pause(randint(1000, 5000))
+    Parreable.startEffect(effects.fire)
+    pause(randint(1000, 2000))
 })
 forever(function () {
-    Parreable = sprites.create(img`
+    projectile = sprites.create(img`
         . . . . . . . . . . . . . . . . 
         . . . . . . . . . . . . f f . . 
         . . . . . . . . . . . f b f . . 
@@ -590,8 +597,8 @@ forever(function () {
         . . . . . . . . . . . f b f . . 
         . . . . . . . . . . . . f f . . 
         `, SpriteKind.Player)
-    Parreable.setVelocity(-90, 0)
-    Parreable.y = randint(0, 115)
-    Parreable.x = 200
-    pause(randint(1000, 5000))
+    projectile.setVelocity(-90, 0)
+    projectile.y = randint(0, 115)
+    projectile.x = 200
+    pause(randint(1000, 2000))
 })
