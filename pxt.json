@@ -1,10 +1,11 @@
 {
-    "name": "gost - Copy",
+    "name": " gost - Copy",
     "description": "",
     "dependencies": {
         "device": "*",
         "arcade-background-scroll": "github:microsoft/arcade-background-scroll#6cfbf925b9a4d5ddf3e1078e6cf6ca6a1aebb301",
-        "pxt-status-bar": "github:jwunderl/pxt-status-bar#v0.4.2"
+        "pxt-status-bar": "github:jwunderl/pxt-status-bar#v0.4.2",
+        "animation": "*"
     },
     "files": [
         "main.blocks",
