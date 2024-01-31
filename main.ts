@@ -108,7 +108,7 @@ controller.anyButton.onEvent(ControllerButtonEvent.Pressed, function () {
         . . . c c c c c c c c b b . . . 
         . . . . . . . . . . . . . . . . 
         `],
-    500,
+    100,
     true
     )
 })
@@ -194,34 +194,34 @@ controller.right.onEvent(ControllerButtonEvent.Pressed, function () {
         . . . . b b 9 d 1 f 9 d 4 c . . 
         . . . . b 9 9 1 f f d d 4 4 4 b 
         . . . . b 9 9 d f b 4 4 4 4 b . 
-        . . . b d 9 9 9 9 4 4 4 4 b . . 
-        . b b d d d 9 9 9 9 9 9 9 b . . 
-        b d d d b b b 9 9 9 9 9 9 9 b . 
-        c d d b 9 9 d c 9 9 9 9 9 9 b . 
-        c b b d 9 d c d 9 9 9 9 9 9 b . 
-        c b 9 9 b c d d 9 9 9 9 9 9 b . 
-        b b c c c d d d 9 9 9 9 9 d b . 
-        . . . . c c d d d 9 9 9 b b . . 
+        . . . b 6 9 9 9 9 4 4 4 4 b . . 
+        . b b 6 6 6 9 9 9 9 9 9 9 b . . 
+        b 6 6 6 b b b 9 9 9 9 9 9 9 b . 
+        c 6 6 b 9 9 6 c 9 9 9 9 9 9 b . 
+        c b b 6 9 6 c 6 9 9 9 9 9 9 b . 
+        c b 9 9 b c 6 6 9 9 9 9 9 9 b . 
+        b b c 6 c 6 6 6 9 9 9 9 9 d b . 
+        . . . . c c 6 6 6 9 9 9 b b . . 
         . . . . . . c c c c c b b . . . 
         `,img`
         . . . . . . . . . . b 9 b . . . 
         . . . . . . . . . b 9 b . . . . 
         . . . . . . b b b b b b . . . . 
         . . . . . b b 9 9 9 9 9 b . . . 
-        . . . . b b 9 d 1 f 9 9 d f . . 
-        . . . . b 9 9 1 f f 9 d 4 c . . 
-        . . . . b 9 9 d f b d d 4 4 . . 
-        . b b b d 9 9 9 9 9 4 4 4 4 4 b 
-        b d d d b b d 9 9 4 4 4 4 4 b . 
-        b b d 9 9 9 b 9 9 9 9 9 9 b . . 
-        c d c 9 9 9 9 d 9 9 9 9 9 9 b . 
-        c b d c d 9 9 b 9 9 9 9 9 9 b . 
-        . c d d c c b d 9 9 9 9 9 d b . 
-        . . c b d d d d d 9 9 9 b b . . 
+        . . . . b b 9 d 1 f 9 9 6 f . . 
+        . . . . b 9 9 1 f f 9 6 4 c . . 
+        . . . . b 9 9 d f b 6 6 4 4 . . 
+        . b b b 6 9 9 9 9 9 4 4 4 4 4 b 
+        b 6 6 6 b b 6 9 9 4 4 4 4 4 b . 
+        b b 6 9 9 9 b 9 9 9 9 9 9 b . . 
+        c 6 c 9 9 9 9 6 9 9 9 9 9 9 b . 
+        c b 6 c 6 9 9 b 9 9 9 9 9 9 b . 
+        . c 6 6 c c b 6 9 9 9 9 9 6 b . 
+        . . c b 6 6 6 6 6 9 9 9 b b . . 
         . . . c c c c c c c c b b . . . 
         . . . . . . . . . . . . . . . . 
         `],
-    500,
+    100,
     true
     )
 })
@@ -314,7 +314,7 @@ controller.left.onEvent(ControllerButtonEvent.Pressed, function () {
         . . . b b c c c c c c c c . . . 
         . . . . . . . . . . . . . . . . 
         `],
-    500,
+    100,
     true
     )
 })
