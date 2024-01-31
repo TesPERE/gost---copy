@@ -1,3 +1,7 @@
+namespace SpriteKind {
+    export const Duk = SpriteKind.create()
+    export const Misil = SpriteKind.create()
+}
 controller.anyButton.onEvent(ControllerButtonEvent.Pressed, function () {
     animation.runImageAnimation(
     mySprite,
@@ -107,6 +111,9 @@ controller.anyButton.onEvent(ControllerButtonEvent.Pressed, function () {
     500,
     true
     )
+})
+sprites.onOverlap(SpriteKind.Projectile, SpriteKind.Player, function (sprite, otherSprite) {
+    sprites.destroyAllSpritesOfKind(SpriteKind.Player)
 })
 controller.right.onEvent(ControllerButtonEvent.Pressed, function () {
     animation.runImageAnimation(
@@ -311,6 +318,12 @@ controller.left.onEvent(ControllerButtonEvent.Pressed, function () {
     true
     )
 })
+sprites.onOverlap(SpriteKind.Misil, SpriteKind.Projectile, function (sprite, otherSprite) {
+    sprites.destroyAllSpritesOfKind(SpriteKind.Misil)
+})
+sprites.onOverlap(SpriteKind.Duk, SpriteKind.Player, function (sprite, otherSprite) {
+    statusbar.value += -1
+})
 controller.A.onEvent(ControllerButtonEvent.Released, function () {
     animation.runImageAnimation(
     mySprite,
@@ -369,9 +382,10 @@ controller.A.onEvent(ControllerButtonEvent.Released, function () {
         . . . . . . . . . . . . . . . . 
         . . . . . . . . . . . . . . . . 
         . . . . . . . . . . . . . . . . 
-        `, mySprite, -90, 0)
+        `, mySprite, 100, 0)
+    pause(1000)
 })
-sprites.onOverlap(SpriteKind.Player, SpriteKind.Player, function (sprite, otherSprite) {
+sprites.onOverlap(SpriteKind.Duk, SpriteKind.Misil, function (sprite, otherSprite) {
     statusbar.value += -1
 })
 let Parreable: Sprite = null
@@ -395,7 +409,7 @@ mySprite = sprites.create(img`
     . c 6 6 6 6 6 6 9 9 9 9 9 6 b . 
     . . c b 6 6 6 6 6 9 9 9 b b . . 
     . . . c c c c c c c c b b . . . 
-    `, SpriteKind.Player)
+    `, SpriteKind.Duk)
 mySprite.setStayInScreen(true)
 controller.moveSprite(mySprite)
 statusbar = statusbars.create(50, 4, StatusBarKind.Health)
@@ -523,7 +537,7 @@ scene.setBackgroundImage(img`
     `)
 forever(function () {
     if (statusbar.value < 1) {
-        game.reset()
+        game.gameOver(false)
     }
 })
 forever(function () {
@@ -551,7 +565,7 @@ forever(function () {
         ..........fcccf.........
         ...........fccf.........
         ............fff.........
-        `, SpriteKind.Player)
+        `, SpriteKind.Misil)
     Parreable.setVelocity(-90, 0)
     Parreable.y = randint(0, 115)
     Parreable.x = 200
