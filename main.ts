@@ -317,6 +317,43 @@ controller.left.onEvent(ControllerButtonEvent.Pressed, function () {
     true
     )
 })
+controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
+    mySprite2 = sprites.create(img`
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        `, SpriteKind.Player)
+    for (let index = 0; index < 4; index++) {
+    	
+    }
+})
+sprites.onOverlap(SpriteKind.Misil, SpriteKind.Projectile, function (sprite, otherSprite) {
+    sprites.destroyAllSpritesOfKind(SpriteKind.Projectile)
+    sprites.destroyAllSpritesOfKind(SpriteKind.Misil)
+})
+sprites.onOverlap(SpriteKind.Projectile, SpriteKind.Pincho, function (sprite, otherSprite) {
+    sprites.destroyAllSpritesOfKind(SpriteKind.Pincho)
+    sprites.destroyAllSpritesOfKind(SpriteKind.Projectile)
+})
+sprites.onOverlap(SpriteKind.Duk, SpriteKind.Player, function (sprite, otherSprite) {
+    statusbar.value += -1
+    if (statusbar.value < 1) {
+        game.gameOver(false)
+    }
+})
 controller.A.onEvent(ControllerButtonEvent.Released, function () {
     animation.runImageAnimation(
     mySprite,
@@ -358,7 +395,7 @@ controller.A.onEvent(ControllerButtonEvent.Released, function () {
     250,
     false
     )
-    projectile2 = sprites.create(img`
+    projectile2 = sprites.createProjectileFromSprite(img`
         . . . . . . . . . . . . . . . . 
         . . . . . . . . . . . . . . . . 
         . . . . . . . . . . . . . . . . 
@@ -375,19 +412,9 @@ controller.A.onEvent(ControllerButtonEvent.Released, function () {
         . . . . . . . . . . . . . . . . 
         . . . . . . . . . . . . . . . . 
         . . . . . . . . . . . . . . . . 
-        `, SpriteKind.Projectile)
-    projectile2.setPosition(mySprite.x, mySprite.y)
+        `, mySprite, 100, 0)
     projectile2.startEffect(effects.bubbles)
-    for (let index = 0; index < 10; index++) {
-        projectile2.x += 20
-        pause(100)
-        if (projectile2.overlapsWith(Parreable)) {
-            sprites.destroy(Parreable)
-        }
-        if (projectile2.overlapsWith(projectile)) {
-            sprites.destroy(projectile)
-        }
-    }
+    pause(1000)
 })
 sprites.onOverlap(SpriteKind.Duk, SpriteKind.Misil, function (sprite, otherSprite) {
     statusbar.value += -1
@@ -395,9 +422,13 @@ sprites.onOverlap(SpriteKind.Duk, SpriteKind.Misil, function (sprite, otherSprit
         game.gameOver(false)
     }
 })
+sprites.onOverlap(SpriteKind.Player, SpriteKind.Pez, function (sprite, otherSprite) {
+    info.changeScoreBy(1)
+})
 let projectile: Sprite = null
 let Parreable: Sprite = null
 let projectile2: Sprite = null
+let mySprite2: Sprite = null
 let statusbar: StatusBarSprite = null
 let mySprite: Sprite = null
 mySprite = sprites.create(img`
@@ -544,8 +575,13 @@ scene.setBackgroundImage(img`
     dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd
     `)
 forever(function () {
+	
+})
+forever(function () {
     statusbar.x = mySprite.x
     statusbar.y = mySprite.y + -18
+})
+forever(function () {
     scroller.scrollBackgroundWithSpeed(-50, 0)
 })
 forever(function () {
@@ -576,21 +612,21 @@ forever(function () {
 forever(function () {
     projectile = sprites.create(img`
         . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . f f f f f f f f . . . . f 
-        . . f f 5 f 5 f f 5 f f . . f f 
-        . f f f 5 f 5 f f 5 f f f f f f 
-        f f f f f f f f f f f f f f f f 
-        . f f f 5 f 5 f f 5 f f f f f f 
-        . . f f f f f f f f f f . . f f 
-        . . . f f f f f f f f . . . . f 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . f f . . 
+        . . . . . . . . . . . f b f . . 
+        . . . . . . . . . . f b b f . . 
+        . . . . . . . . . f b b b f . . 
+        . . . . . . . . f b 2 b b f . . 
+        . . . . . . . f 2 2 2 b b f . . 
+        . . . . . . f 2 2 b b b b f . . 
+        . . . . . f 2 2 2 2 b 2 b f . . 
+        . . . . . . f 2 2 b 2 b b f . . 
+        . . . . . . . f 2 b b b b f . . 
+        . . . . . . . . f 2 b b b f . . 
+        . . . . . . . . . f b b b f . . 
+        . . . . . . . . . . f b b f . . 
+        . . . . . . . . . . . f b f . . 
+        . . . . . . . . . . . . f f . . 
         `, SpriteKind.Misil)
     projectile.setVelocity(-90, 0)
     projectile.y = randint(0, 115)
