@@ -318,43 +318,6 @@ controller.left.onEvent(ControllerButtonEvent.Pressed, function () {
     )
 })
 controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
-    mySprite2 = sprites.create(img`
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        `, SpriteKind.Player)
-    for (let index = 0; index < 4; index++) {
-    	
-    }
-})
-sprites.onOverlap(SpriteKind.Misil, SpriteKind.Projectile, function (sprite, otherSprite) {
-    sprites.destroyAllSpritesOfKind(SpriteKind.Projectile)
-    sprites.destroyAllSpritesOfKind(SpriteKind.Misil)
-})
-sprites.onOverlap(SpriteKind.Projectile, SpriteKind.Pincho, function (sprite, otherSprite) {
-    sprites.destroyAllSpritesOfKind(SpriteKind.Pincho)
-    sprites.destroyAllSpritesOfKind(SpriteKind.Projectile)
-})
-sprites.onOverlap(SpriteKind.Duk, SpriteKind.Player, function (sprite, otherSprite) {
-    statusbar.value += -1
-    if (statusbar.value < 1) {
-        game.gameOver(false)
-    }
-})
-controller.A.onEvent(ControllerButtonEvent.Released, function () {
     animation.runImageAnimation(
     mySprite,
     [img`
@@ -416,11 +379,19 @@ controller.A.onEvent(ControllerButtonEvent.Released, function () {
     projectile2.startEffect(effects.bubbles)
     pause(1000)
 })
+sprites.onOverlap(SpriteKind.Misil, SpriteKind.Projectile, function (sprite, otherSprite) {
+    sprites.destroyAllSpritesOfKind(SpriteKind.Projectile)
+    sprites.destroyAllSpritesOfKind(SpriteKind.Misil)
+})
+sprites.onOverlap(SpriteKind.Projectile, SpriteKind.Pincho, function (sprite, otherSprite) {
+    sprites.destroyAllSpritesOfKind(SpriteKind.Pincho)
+    sprites.destroyAllSpritesOfKind(SpriteKind.Projectile)
+})
+sprites.onOverlap(SpriteKind.Duk, SpriteKind.Player, function (sprite, otherSprite) {
+    statusbar.value += -1
+})
 sprites.onOverlap(SpriteKind.Duk, SpriteKind.Misil, function (sprite, otherSprite) {
     statusbar.value += -1
-    if (statusbar.value < 1) {
-        game.gameOver(false)
-    }
 })
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Pez, function (sprite, otherSprite) {
     info.changeScoreBy(1)
@@ -428,7 +399,6 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.Pez, function (sprite, otherSpri
 let projectile: Sprite = null
 let Parreable: Sprite = null
 let projectile2: Sprite = null
-let mySprite2: Sprite = null
 let statusbar: StatusBarSprite = null
 let mySprite: Sprite = null
 mySprite = sprites.create(img`
@@ -575,7 +545,9 @@ scene.setBackgroundImage(img`
     dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd
     `)
 forever(function () {
-	
+    if (statusbar.value < 1) {
+        game.gameOver(false)
+    }
 })
 forever(function () {
     statusbar.x = mySprite.x
@@ -627,7 +599,7 @@ forever(function () {
         . . . . . . . . . . f b b f . . 
         . . . . . . . . . . . f b f . . 
         . . . . . . . . . . . . f f . . 
-        `, SpriteKind.Misil)
+        `, SpriteKind.Pincho)
     projectile.setVelocity(-90, 0)
     projectile.y = randint(0, 115)
     projectile.x = 200
