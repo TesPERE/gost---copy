@@ -365,11 +365,11 @@ controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
         . . . . . . . . . . . . . . . . 
         . . . . . . . . . 8 8 8 8 . . . 
         . . . . . . . 8 8 1 1 9 9 8 . . 
-        . . . . 8 8 9 9 1 1 1 1 1 9 9 . 
-        . . 9 9 9 9 1 1 1 1 1 1 1 1 9 8 
-        . . 1 1 1 1 1 1 1 1 1 1 1 1 9 8 
-        . . 9 9 8 8 9 1 1 1 1 1 1 1 9 . 
-        . . . . . . 8 8 9 1 9 9 9 8 . . 
+        . . . . 8 8 9 9 1 1 1 1 9 9 8 . 
+        . . 9 9 9 9 1 1 1 1 1 9 9 9 8 . 
+        . . 1 1 1 1 1 1 1 1 9 1 1 9 8 . 
+        . . 9 9 8 8 9 1 1 1 1 9 9 9 8 . 
+        . . . . . . 8 8 9 1 1 9 1 8 . . 
         . . . . . . . . . 8 8 8 8 . . . 
         . . . . . . . . . . . . . . . . 
         . . . . . . . . . . . . . . . . 
@@ -383,12 +383,12 @@ sprites.onOverlap(SpriteKind.Misil, SpriteKind.Projectile, function (sprite, oth
     sprites.destroyAllSpritesOfKind(SpriteKind.Projectile)
     sprites.destroyAllSpritesOfKind(SpriteKind.Misil)
 })
+sprites.onOverlap(SpriteKind.Duk, SpriteKind.Pincho, function (sprite, otherSprite) {
+    statusbar.value += -1
+})
 sprites.onOverlap(SpriteKind.Projectile, SpriteKind.Pincho, function (sprite, otherSprite) {
     sprites.destroyAllSpritesOfKind(SpriteKind.Pincho)
     sprites.destroyAllSpritesOfKind(SpriteKind.Projectile)
-})
-sprites.onOverlap(SpriteKind.Duk, SpriteKind.Player, function (sprite, otherSprite) {
-    statusbar.value += -1
 })
 sprites.onOverlap(SpriteKind.Duk, SpriteKind.Misil, function (sprite, otherSprite) {
     statusbar.value += -1
@@ -584,21 +584,21 @@ forever(function () {
 forever(function () {
     projectile = sprites.create(img`
         . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . f f . . 
-        . . . . . . . . . . . f b f . . 
-        . . . . . . . . . . f b b f . . 
-        . . . . . . . . . f b b b f . . 
-        . . . . . . . . f b 2 b b f . . 
-        . . . . . . . f 2 2 2 b b f . . 
-        . . . . . . f 2 2 b b b b f . . 
-        . . . . . f 2 2 2 2 b 2 b f . . 
-        . . . . . . f 2 2 b 2 b b f . . 
-        . . . . . . . f 2 b b b b f . . 
-        . . . . . . . . f 2 b b b f . . 
-        . . . . . . . . . f b b b f . . 
-        . . . . . . . . . . f b b f . . 
-        . . . . . . . . . . . f b f . . 
-        . . . . . . . . . . . . f f . . 
+        . . . . . . . . . . . . f f f f 
+        . . . . . . . . . . . f b b b f 
+        . . . . . . . . . . f b b b b f 
+        . . . . . . . . . f b b 2 b b f 
+        . . . . . . . . f b 2 2 b b b f 
+        . . . . . . . f 2 2 2 b b 2 b f 
+        . . . . . . f 2 2 b b b b b b f 
+        . . . . . f 2 2 2 2 b 2 b b b f 
+        . . . . . . f 2 2 b 2 b b b b f 
+        . . . . . . . f 2 b 2 b b b b f 
+        . . . . . . . . f 2 b 2 2 b b f 
+        . . . . . . . . . f b b b 2 b f 
+        . . . . . . . . . . f b b b 2 f 
+        . . . . . . . . . . . f b b b f 
+        . . . . . . . . . . . . f f f f 
         `, SpriteKind.Pincho)
     projectile.setVelocity(-90, 0)
     projectile.y = randint(0, 115)

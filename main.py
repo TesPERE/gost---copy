@@ -2,6 +2,8 @@
 class SpriteKind:
     Duk = SpriteKind.create()
     Misil = SpriteKind.create()
+    Pincho = SpriteKind.create()
+    Pez = SpriteKind.create()
 
 def on_button_pressed():
     animation.run_image_animation(mySprite,
@@ -100,9 +102,9 @@ def on_button_pressed():
                         . . . . . . . . . b 9 b . . . . 
                         . . . . . . b b b b b b . . . . 
                         . . . . . b b 9 9 9 9 9 b . . . 
-                        . . . . b b 9 d 1 f 9 9 d f . . 
-                        . . . . b 9 9 1 f f 9 d 4 c . . 
-                        . . . . b 9 9 d f b d d 4 4 . . 
+                        . . . . b b 9 d 1 f 9 9 6 f . . 
+                        . . . . b 9 9 1 f f 9 6 4 c . . 
+                        . . . . b 9 9 d f b 6 6 4 4 . . 
                         . b b b 6 9 9 9 9 9 4 4 4 4 4 b 
                         b 6 6 6 b b 6 9 9 4 4 4 4 4 b . 
                         b b 6 9 9 9 b 9 9 9 9 9 9 b . . 
@@ -116,10 +118,6 @@ def on_button_pressed():
         100,
         True)
 controller.any_button.on_event(ControllerButtonEvent.PRESSED, on_button_pressed)
-
-def on_on_overlap(sprite, otherSprite):
-    sprites.destroy_all_sprites_of_kind(SpriteKind.player)
-sprites.on_overlap(SpriteKind.projectile, SpriteKind.player, on_on_overlap)
 
 def on_right_pressed():
     animation.run_image_animation(mySprite,
@@ -331,15 +329,7 @@ def on_left_pressed():
         True)
 controller.left.on_event(ControllerButtonEvent.PRESSED, on_left_pressed)
 
-def on_on_overlap2(sprite2, otherSprite2):
-    sprites.destroy_all_sprites_of_kind(SpriteKind.Misil)
-sprites.on_overlap(SpriteKind.Misil, SpriteKind.projectile, on_on_overlap2)
-
-def on_on_overlap3(sprite3, otherSprite3):
-    statusbar.value += -1
-sprites.on_overlap(SpriteKind.Duk, SpriteKind.player, on_on_overlap3)
-
-def on_a_released():
+def on_a_pressed():
     global projectile2
     animation.run_image_animation(mySprite,
         [img("""
@@ -401,13 +391,33 @@ def on_a_released():
         mySprite,
         100,
         0)
+    projectile2.start_effect(effects.bubbles)
     pause(1000)
-controller.A.on_event(ControllerButtonEvent.RELEASED, on_a_released)
+controller.A.on_event(ControllerButtonEvent.PRESSED, on_a_pressed)
+
+def on_on_overlap(sprite, otherSprite):
+    sprites.destroy_all_sprites_of_kind(SpriteKind.projectile)
+    sprites.destroy_all_sprites_of_kind(SpriteKind.Misil)
+sprites.on_overlap(SpriteKind.Misil, SpriteKind.projectile, on_on_overlap)
+
+def on_on_overlap2(sprite2, otherSprite2):
+    statusbar.value += -1
+sprites.on_overlap(SpriteKind.Duk, SpriteKind.Pincho, on_on_overlap2)
+
+def on_on_overlap3(sprite3, otherSprite3):
+    sprites.destroy_all_sprites_of_kind(SpriteKind.Pincho)
+    sprites.destroy_all_sprites_of_kind(SpriteKind.projectile)
+sprites.on_overlap(SpriteKind.projectile, SpriteKind.Pincho, on_on_overlap3)
 
 def on_on_overlap4(sprite4, otherSprite4):
     statusbar.value += -1
 sprites.on_overlap(SpriteKind.Duk, SpriteKind.Misil, on_on_overlap4)
 
+def on_on_overlap5(sprite5, otherSprite5):
+    info.change_score_by(1)
+sprites.on_overlap(SpriteKind.player, SpriteKind.Pez, on_on_overlap5)
+
+projectile: Sprite = None
 Parreable: Sprite = None
 projectile2: Sprite = None
 statusbar: StatusBarSprite = None
@@ -595,32 +605,33 @@ def on_forever4():
     Parreable.set_velocity(-90, 0)
     Parreable.y = randint(0, 115)
     Parreable.x = 200
-    pause(randint(1000, 5000))
+    Parreable.start_effect(effects.fire)
+    pause(randint(1000, 2000))
 forever(on_forever4)
 
 def on_forever5():
-    global Parreable
-    Parreable = sprites.create(img("""
+    global projectile
+    projectile = sprites.create(img("""
             . . . . . . . . . . . . . . . . 
-                    . . . . . . . . . . . . f f . . 
-                    . . . . . . . . . . . f b f . . 
-                    . . . . . . . . . . f b b f . . 
-                    . . . . . . . . . f b b b f . . 
-                    . . . . . . . . f b 2 b b f . . 
-                    . . . . . . . f 2 2 2 b b f . . 
-                    . . . . . . f 2 2 b b b b f . . 
-                    . . . . . f 2 2 2 2 b 2 b f . . 
-                    . . . . . . f 2 2 b 2 b b f . . 
-                    . . . . . . . f 2 b b b b f . . 
-                    . . . . . . . . f 2 b b b f . . 
-                    . . . . . . . . . f b b b f . . 
-                    . . . . . . . . . . f b b f . . 
-                    . . . . . . . . . . . f b f . . 
-                    . . . . . . . . . . . . f f . .
+                    . . . . . . . . . . . . f f f f 
+                    . . . . . . . . . . . f b b b f 
+                    . . . . . . . . . . f b b b b f 
+                    . . . . . . . . . f b b 2 b b f 
+                    . . . . . . . . f b 2 2 b b b f 
+                    . . . . . . . f 2 2 2 b b 2 b f 
+                    . . . . . . f 2 2 b b b b b b f 
+                    . . . . . f 2 2 2 2 b 2 b b b f 
+                    . . . . . . f 2 2 b 2 b b b b f 
+                    . . . . . . . f 2 b 2 b b b b f 
+                    . . . . . . . . f 2 b 2 2 b b f 
+                    . . . . . . . . . f b b b 2 b f 
+                    . . . . . . . . . . f b b b 2 f 
+                    . . . . . . . . . . . f b b b f 
+                    . . . . . . . . . . . . f f f f
         """),
-        SpriteKind.player)
-    Parreable.set_velocity(-90, 0)
-    Parreable.y = randint(0, 115)
-    Parreable.x = 200
-    pause(randint(1000, 5000))
+        SpriteKind.Pincho)
+    projectile.set_velocity(-90, 0)
+    projectile.y = randint(0, 115)
+    projectile.x = 200
+    pause(randint(1000, 2000))
 forever(on_forever5)
